@@ -1,0 +1,3 @@
+include ':core', ':app', ':view'
+include ':data'
+include ':android'

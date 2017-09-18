@@ -1,0 +1,9 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    compile project(':core')
+
+    compile javaxInject
+    compile okHttpLoggingInterceptor
+    compile rxJava
+}

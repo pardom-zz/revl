@@ -1,0 +1,10 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    compile project(':core')
+    compile project(':app')
+
+    compile javaxInject
+    compile reduxKotlin
+    compile reduxObservable
+}

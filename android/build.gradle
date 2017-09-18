@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+repositories {
+    google()
+    jcenter()
+}
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        applicationId 'com.revl.challenge'
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    compile project(':core')
+    compile project(':app')
+    compile project(':data')
+    compile project(':view')
+
+    kapt daggerCompiler
+
+    compile androidSupportAppCompat
+    compile androidSupportDesign
+    compile androidSupportRecyclerView
+    compile dagger
+    compile kotlinStdlib
+    compile kotterKnife
+    compile picasso
+    compile reduxKotlin
+    compile reduxObservable
+    compile reduxRxJava
+    compile retrofit
+    compile retrofitAdapterRxJava
+    compile retrofitConverterMoshi
+    compile rxBinding
+    compile rxJava
+}
