@@ -12,7 +12,7 @@ import javax.inject.Inject
  * Get a [Foo] by id.
  */
 class GetFoo @Inject constructor(
-        val remote: FooRemoteDatasource) : Interactor<Request, Response> {
+        private val remote: FooRemoteDatasource) : Interactor<Request, Response> {
 
     override fun execute(request: Request): Single<Response> {
         return remote.get(request.id)
