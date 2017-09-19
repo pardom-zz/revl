@@ -12,14 +12,15 @@ class FooEpic @Inject constructor(
 
     override fun map(actions: Observable<out Any>, store: Store<AppState>): Observable<out Any> {
         val getFooActions = actions.ofType(FooAction.GetFoo::class.java)
-                .map(getFooMapper(store))
+                .map(getFooMapper)
 
         // Use Observable.merge() for more actions.
         return getFooActions
     }
 
-    fun getFooMapper(store: Store<AppState>) = { action: FooAction.GetFoo ->
+    private val getFooMapper = { action: FooAction.GetFoo ->
         getFoo.execute(GetFoo.Request(action.id))
                 .toObservable()
     }
+
 }
