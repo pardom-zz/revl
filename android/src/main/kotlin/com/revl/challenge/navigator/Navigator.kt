@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewParent
 import android.widget.FrameLayout
-import java.util.Stack
+import java.util.*
 
 /**
  * VEEEEEERY simple and naive implementation of navigation view based on concepts in Flutter's
@@ -14,13 +14,9 @@ import java.util.Stack
  */
 class Navigator {
 
-    abstract class View : FrameLayout {
+    abstract class View : FrameLayout, Listener {
 
         protected abstract val defaultRoute: Route
-
-        protected abstract fun onPush(route: Route)
-
-        protected abstract fun onPop(route: Route)
 
         private val routes = Stack<Route>()
 
@@ -60,6 +56,15 @@ class Navigator {
             }
             return false
         }
+
+
+    }
+
+    interface Listener {
+
+        fun onPush(route: Route)
+
+        fun onPop(route: Route)
 
     }
 

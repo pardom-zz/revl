@@ -9,12 +9,13 @@ import android.widget.LinearLayout
 import butterknife.bindView
 import com.revl.challenge.App
 import com.revl.challenge.R
+import com.revl.challenge.navigator.Navigator
 import com.revl.challenge.navigator.Route
 import com.revl.challenge.navigator.SceneNavigator.SceneRoute
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
-class ImageDetailListView : LinearLayout {
+class ImageDetailListView : LinearLayout, Navigator.Listener {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Private members
@@ -64,6 +65,18 @@ class ImageDetailListView : LinearLayout {
     override fun onDetachedFromWindow() {
         disposables.dispose()
         super.onDetachedFromWindow()
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Listeners
+
+    override fun onPush(route: Route) {
+        if (route is ImageDetailRoute) {
+            post { imageRecyclerView.scrollToPosition(route.position) }
+        }
+    }
+
+    override fun onPop(route: Route) {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
