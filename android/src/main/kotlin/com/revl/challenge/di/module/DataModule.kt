@@ -1,6 +1,8 @@
 package com.revl.challenge.di.module
 
 import android.content.Context
+import com.revl.challenge.R
+import com.revl.challenge.retrofit.HeaderRequestInterceptor
 import com.revl.challenge.retrofit.image.ImageService
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -18,6 +20,7 @@ import javax.inject.Named
 ))
 class DataModule {
 
+
     @Provides
     fun picasso(context: Context): Picasso {
         return Picasso.with(context)
@@ -28,7 +31,15 @@ class DataModule {
     fun baseUrl(): String {
         // TODO: This is not the ideal place to provide the base url. Typically it would be provided
         // by a condition based abstraction, e.g. mock mode, production, staging, etc.
-        return "https://api.imgur.com/3/image/"
+        return "https://api.cognitive.microsoft.com/bing/v5.0/"
+    }
+
+    @Provides
+    @Named("apiKey")
+    fun apiKey(context: Context): String {
+        // TODO: This is not the ideal place to provide the api key. Typically it would be provided
+        // by a condition based abstraction, e.g. mock mode, production, staging, etc.
+        return context.getString(R.string.api_key_bing)
     }
 
     @Provides
@@ -39,11 +50,15 @@ class DataModule {
     }
 
     @Provides
-    fun okHttp(logLevel: Level): OkHttpClient {
+    fun okHttp(
+            logLevel: Level,
+            @Named("apiKey") apiKey: String): OkHttpClient {
+
         return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     level = logLevel
                 })
+                .addInterceptor(HeaderRequestInterceptor(HEADER_BING_AUTH, apiKey))
                 .build()
     }
 
@@ -63,6 +78,11 @@ class DataModule {
     @Provides
     fun imageService(retrofit: Retrofit): ImageService {
         return retrofit.create(ImageService::class.java)
+    }
+
+
+    companion object {
+        const val HEADER_BING_AUTH = "Ocp-Apim-Subscription-Key"
     }
 
 }

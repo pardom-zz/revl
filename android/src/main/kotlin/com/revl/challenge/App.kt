@@ -11,7 +11,7 @@ import redux.asObservable
 import redux.createStore
 import redux.observable.createEpicMiddleware
 
-class RevlApplication : Application() {
+class App : Application() {
 
     init {
         Companion.instance = this
@@ -35,7 +35,7 @@ class RevlApplication : Application() {
 
     companion object {
 
-        private lateinit var instance: RevlApplication
+        private lateinit var instance: App
 
         fun component() = instance.appComponent
 
@@ -46,6 +46,7 @@ class RevlApplication : Application() {
         fun stateChanges() = store()
                 .asObservable()
                 .publish()
+                .autoConnect()
 
     }
 

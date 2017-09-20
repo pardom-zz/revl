@@ -16,7 +16,7 @@ class ImageDatasource @Inject constructor(
                 ImageService.PARAM_OFFSET to "$offset"
         )
         return service.searchImages(params)
-                .map { it.value }
+                .map { it.toCore() }
     }
 
     override fun get(key: String): Single<Image> {
@@ -24,11 +24,11 @@ class ImageDatasource @Inject constructor(
     }
 
     override fun put(key: String, value: Image): Single<Image> {
-        throw OperationNotSupportedException("Cannot add images to Bing image search.")
+        throw OperationNotSupportedException("Cannot add images to Bing images search.")
     }
 
     override fun remove(key: String): Single<Image> {
-        throw OperationNotSupportedException("Cannot remove images from Bing image search.")
+        throw OperationNotSupportedException("Cannot remove images from Bing images search.")
     }
 
 }

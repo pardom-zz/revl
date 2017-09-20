@@ -1,7 +1,7 @@
 package com.revl.challenge.di.module
 
 import android.content.Context
-import com.revl.challenge.RevlApplication
+import com.revl.challenge.App
 import dagger.Module
 import dagger.Provides
 
@@ -9,7 +9,7 @@ import dagger.Provides
         DataModule::class
 ))
 class AppModule(
-        private val app: RevlApplication) {
+        private val app: App) {
 
     @Provides
     fun context(): Context = app

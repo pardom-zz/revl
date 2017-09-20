@@ -26,7 +26,7 @@ class SearchImages @Inject constructor(
     ) : Interactor.Request
 
     data class Response(
-            val image: List<Image>
+            val images: List<Image>
     ) : Interactor.Response
 
 }

@@ -36,6 +36,7 @@ dependencies {
     compile androidSupportDesign
     compile androidSupportRecyclerView
     compile dagger
+    compile epoxy
     compile kotlinStdlib
     compile kotterKnife
     compile picasso

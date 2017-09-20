@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
 /**
- * Retrofit service for Bing's image API endpoint.
+ * Retrofit service for Bing's images API endpoint.
  */
 interface ImageService {
 
@@ -21,15 +21,15 @@ interface ImageService {
      *  PARAM_MARKET
      *  PARAM_SAFE_SEARCH
      *
-     *  @param query Query params for image search
-     *  @return Single observable image response
+     *  @param query Query params for images search
+     *  @return Single observable images response
      */
     @GET("$PATH_IMAGES/search")
     fun searchImages(@QueryMap params: Map<String, String>): Single<ImageResponse>
 
     companion object {
         const val PATH_IMAGES = "images"
-        const val PARAM_QUERY = "query"
+        const val PARAM_QUERY = "q"
         const val PARAM_COUNT = "count"
         const val PARAM_OFFSET = "offset"
         const val PARAM_MARKET = "mkt"
