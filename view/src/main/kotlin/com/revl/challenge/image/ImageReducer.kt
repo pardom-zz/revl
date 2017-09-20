@@ -6,13 +6,18 @@ object ImageReducer : Reducer<ImageState> {
 
     override fun reduce(state: ImageState, action: Any): ImageState {
         return when (action) {
-            is ImageAction.SetImages -> {
+            is ImageAction.ClearImages -> {
                 state.copy(
-                        imageMap = action.images.associateBy { it.id }
+                        imageMap = emptyMap()
+                )
+            }
+            is ImageAction.AddImages -> {
+                state.copy(
+                        imageMap = state.imageMap + action.images.associateBy { it.id }
                 )
             }
             else -> state
         }
     }
-   
+
 }

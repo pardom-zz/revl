@@ -10,7 +10,9 @@ sealed class ImageAction {
             val offset: Int
     ) : ImageAction()
 
-    data class SetImages(
+    class ClearImages : ImageAction()
+
+    data class AddImages(
             val images: List<Image>
     ) : ImageAction()
 

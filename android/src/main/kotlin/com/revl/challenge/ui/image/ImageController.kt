@@ -12,6 +12,10 @@ class ImageController(
 
     fun set(images: Collection<Image>) {
         _images.clear()
+        addAll(images)
+    }
+
+    fun addAll(images: Collection<Image>) {
         _images.addAll(images)
         requestModelBuild()
     }

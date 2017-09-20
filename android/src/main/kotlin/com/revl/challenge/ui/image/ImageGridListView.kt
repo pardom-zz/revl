@@ -14,6 +14,7 @@ import com.revl.challenge.R
 import com.revl.challenge.image.ImageAction
 import com.revl.challenge.model.Image
 import com.revl.challenge.navigator.Navigator
+import com.revl.challenge.widget.recyclerview.EndlessScrollObservable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
@@ -27,6 +28,9 @@ class ImageGridListView : LinearLayout {
 
     // Values
     private val imageController = ImageController(false, createClickListener(), createLongClickListener())
+    private val layoutManager = GridLayoutManager(context, 4) // TODO: extract span count to resource
+    private val endlessScrollObservable by lazy { EndlessScrollObservable(imageRecyclerView, layoutManager) }
+
     private val disposables = CompositeDisposable()
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,12 +64,22 @@ class ImageGridListView : LinearLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        imageRecyclerView.layoutManager = GridLayoutManager(context, 4) // TODO: extract span count to resource
+        imageRecyclerView.layoutManager = layoutManager
         imageRecyclerView.adapter = imageController.adapter
 
+        endlessScrollObservable.hasMore = true // Assume we always have more (for challenge)
+        endlessScrollObservable.observeLoadingMore()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    // TODO: THIS IS A SHORTCUT. IGNORE!!! :)
+                    val offset = imageController.adapter.itemCount
+                    App.dispatch(ImageAction.SearchImages("kite surfing", PAGE_SIZE, offset))
+                    endlessScrollObservable.isLoading = true
+                }
+                .apply { disposables.add(this) }
 
         // TODO: Search edit text
-        App.dispatch(ImageAction.SearchImages("kite surfing", 50, 0))
+        App.dispatch(ImageAction.SearchImages("kite surfing", PAGE_SIZE, 0))
     }
 
     override fun onAttachedToWindow() {
@@ -75,13 +89,22 @@ class ImageGridListView : LinearLayout {
                 .startWith(App.store().state)
                 .map { appState -> appState.imageState.imageMap.values }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { images -> imageController.set(images) }
+                .subscribe { images ->
+                    imageController.set(images)
+                    endlessScrollObservable.isLoading = false
+                }
                 .apply { disposables.add(this) }
     }
 
     override fun onDetachedFromWindow() {
         disposables.dispose()
         super.onDetachedFromWindow()
+    }
+
+    companion object {
+
+        const val PAGE_SIZE = 20
+
     }
 
 }

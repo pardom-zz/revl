@@ -20,7 +20,7 @@ class ImageEpic @Inject constructor(
     private val searchImagesMapper = { action: ImageAction.SearchImages ->
         searchImages.execute(SearchImages.Request(action.query, action.count, action.offset))
                 .subscribeOn(Schedulers.io())
-                .map { response -> ImageAction.SetImages(response.images) }
+                .map { response -> ImageAction.AddImages(response.images) }
                 .toObservable()
     }
 

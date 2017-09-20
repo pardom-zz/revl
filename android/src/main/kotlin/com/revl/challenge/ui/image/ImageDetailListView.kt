@@ -12,10 +12,12 @@ import android.widget.LinearLayout
 import butterknife.bindView
 import com.revl.challenge.App
 import com.revl.challenge.R
+import com.revl.challenge.image.ImageAction
 import com.revl.challenge.model.Image
 import com.revl.challenge.navigator.Navigator
 import com.revl.challenge.navigator.Route
 import com.revl.challenge.navigator.SceneNavigator.SceneRoute
+import com.revl.challenge.widget.recyclerview.EndlessScrollObservable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
@@ -29,6 +31,9 @@ class ImageDetailListView : LinearLayout, Navigator.Listener {
 
     // Values
     private val imageController = ImageController(true, null, createLongClickListener())
+    private val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    private val endlessScrollObservable by lazy { EndlessScrollObservable(imageRecyclerView, layoutManager) }
+
     private val disposables = CompositeDisposable()
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,8 +53,19 @@ class ImageDetailListView : LinearLayout, Navigator.Listener {
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        imageRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        imageRecyclerView.layoutManager = layoutManager
         imageRecyclerView.adapter = imageController.adapter
+
+        endlessScrollObservable.hasMore = true // Assume we always have more (for challenge)
+        endlessScrollObservable.observeLoadingMore()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    // TODO: THIS IS A SHORTCUT. IGNORE!!! :)
+                    val offset = imageController.adapter.itemCount
+                    App.dispatch(ImageAction.SearchImages("kite surfing", PAGE_SIZE, offset))
+                    endlessScrollObservable.isLoading = true
+                }
+                .apply { disposables.add(this) }
 
         val pagerSnapHelper = PagerSnapHelper()
         pagerSnapHelper.attachToRecyclerView(imageRecyclerView)
@@ -62,7 +78,10 @@ class ImageDetailListView : LinearLayout, Navigator.Listener {
                 .startWith(App.store().state)
                 .map { appState -> appState.imageState.imageMap.values }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { images -> imageController.set(images) }
+                .subscribe { images ->
+                    imageController.set(images)
+                    endlessScrollObservable.isLoading = false
+                }
                 .apply { disposables.add(this) }
     }
 
@@ -104,6 +123,8 @@ class ImageDetailListView : LinearLayout, Navigator.Listener {
     // Companion
 
     companion object {
+
+        const val PAGE_SIZE = 20
 
         fun route(position: Int): Route = ImageDetailRoute(position)
 
