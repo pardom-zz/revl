@@ -1,6 +1,9 @@
 package com.revl.challenge.ui.image
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
 import android.support.v7.widget.RecyclerView
@@ -9,6 +12,7 @@ import android.widget.LinearLayout
 import butterknife.bindView
 import com.revl.challenge.App
 import com.revl.challenge.R
+import com.revl.challenge.model.Image
 import com.revl.challenge.navigator.Navigator
 import com.revl.challenge.navigator.Route
 import com.revl.challenge.navigator.SceneNavigator.SceneRoute
@@ -24,7 +28,7 @@ class ImageDetailListView : LinearLayout, Navigator.Listener {
     private val imageRecyclerView: RecyclerView by bindView(R.id.image_recycler_view)
 
     // Values
-    private val imageController = ImageController(true)
+    private val imageController = ImageController(true, null, createLongClickListener())
     private val disposables = CompositeDisposable()
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +81,16 @@ class ImageDetailListView : LinearLayout, Navigator.Listener {
     }
 
     override fun onPop(route: Route) {
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Private functions
+
+    private fun createLongClickListener() = { image: Image ->
+        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(image.name, image.url)
+        clipboardManager.primaryClip = clipData
+        Snackbar.make(this, R.string.image_copied, Snackbar.LENGTH_SHORT).show()
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

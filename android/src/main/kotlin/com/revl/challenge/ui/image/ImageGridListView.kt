@@ -1,6 +1,9 @@
 package com.revl.challenge.ui.image
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -9,6 +12,7 @@ import butterknife.bindView
 import com.revl.challenge.App
 import com.revl.challenge.R
 import com.revl.challenge.image.ImageAction
+import com.revl.challenge.model.Image
 import com.revl.challenge.navigator.Navigator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -22,7 +26,7 @@ class ImageGridListView : LinearLayout {
     private val imageRecyclerView: RecyclerView by bindView(R.id.image_recycler_view)
 
     // Values
-    private val imageController = ImageController(false, createClickListener())
+    private val imageController = ImageController(false, createClickListener(), createLongClickListener())
     private val disposables = CompositeDisposable()
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +45,13 @@ class ImageGridListView : LinearLayout {
 
     private fun createClickListener() = { position: Int ->
         Navigator.of(this).push(ImageDetailListView.route(position))
+    }
+
+    private fun createLongClickListener() = { image: Image ->
+        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(image.name, image.url)
+        clipboardManager.primaryClip = clipData
+        Snackbar.make(this, R.string.image_copied, Snackbar.LENGTH_SHORT).show()
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

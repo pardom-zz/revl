@@ -33,7 +33,11 @@ class ImageGridListItemView : RelativeLayout {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // API
 
-    private fun bind(image: Image, position: Int, clickListener: ((Int) -> Any?)?) {
+    private fun bind(
+            image: Image,
+            position: Int,
+            clickListener: ((Int) -> Any?)?,
+            longClickListener: ((Image) -> Any?)?) {
 
         App.component()
                 .picasso()
@@ -44,6 +48,11 @@ class ImageGridListItemView : RelativeLayout {
         setOnClickListener {
             clickListener?.invoke(position)
         }
+
+        setOnLongClickListener {
+            longClickListener?.invoke(image)
+            longClickListener != null
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,11 +61,12 @@ class ImageGridListItemView : RelativeLayout {
     class Model(
             private val image: Image,
             private val position: Int,
-            private val clickListener: ((Int) -> Any?)?) : EpoxyModel<ImageGridListItemView>() {
+            private val clickListener: ((Int) -> Any?)?,
+            private val longClickListener: ((Image) -> Any?)?) : EpoxyModel<ImageGridListItemView>() {
 
         override fun getDefaultLayout() = R.layout.image_grid_list_item_view
 
-        override fun bind(view: ImageGridListItemView) = view.bind(image, position, clickListener)
+        override fun bind(view: ImageGridListItemView) = view.bind(image, position, clickListener, longClickListener)
 
     }
 
