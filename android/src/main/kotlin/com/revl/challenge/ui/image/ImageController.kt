@@ -3,7 +3,9 @@ package com.revl.challenge.ui.image
 import com.airbnb.epoxy.EpoxyController
 import com.revl.challenge.model.Image
 
-class ImageController : EpoxyController() {
+class ImageController(
+        private val detail: Boolean,
+        private val clickListener: ((Int) -> Any?)? = null) : EpoxyController() {
 
     private val _images = mutableListOf<Image>()
 
@@ -15,8 +17,14 @@ class ImageController : EpoxyController() {
 
     override fun buildModels() {
         _images
-                .map { image -> ImageListItemView.Model(image).id(image.id) }
-                .forEach { add(it) }
+                .forEachIndexed { index, image ->
+                    val model = if (detail) {
+                        ImageDetailListItemView.Model(image)
+                    } else {
+                        ImageGridListItemView.Model(image, index, clickListener)
+                    }
+                    model.id(image.id).apply { add(this) }
+                }
     }
 
 }

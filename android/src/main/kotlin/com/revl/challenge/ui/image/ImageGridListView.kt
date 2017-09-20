@@ -9,6 +9,7 @@ import butterknife.bindView
 import com.revl.challenge.App
 import com.revl.challenge.R
 import com.revl.challenge.image.ImageAction
+import com.revl.challenge.navigator.Navigator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
@@ -21,7 +22,7 @@ class ImageGridListView : LinearLayout {
     private val imageRecyclerView: RecyclerView by bindView(R.id.image_recycler_view)
 
     // Values
-    private val imageController = ImageController()
+    private val imageController = ImageController(false, createClickListener())
     private val disposables = CompositeDisposable()
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +37,13 @@ class ImageGridListView : LinearLayout {
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Listeners
+
+    private fun createClickListener() = { position: Int ->
+        Navigator.of(this).push(ImageDetailListView.route(position))
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Lifecycle
 
     override fun onFinishInflate() {
@@ -46,7 +54,7 @@ class ImageGridListView : LinearLayout {
 
 
         // TODO: Search edit text
-        App.dispatch(ImageAction.SearchImages("kite surfing", 10, 0))
+        App.dispatch(ImageAction.SearchImages("kite surfing", 50, 0))
     }
 
     override fun onAttachedToWindow() {

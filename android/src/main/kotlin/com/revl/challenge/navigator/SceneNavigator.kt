@@ -28,7 +28,7 @@ abstract class SceneNavigator : Navigator.View {
         onPush(route)
     }
 
-    data class SceneRoute(
+    open class SceneRoute(
             val layoutResId: Int
     ) : Route
 

@@ -7,16 +7,17 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import butterknife.bindView
 import com.airbnb.epoxy.EpoxyModel
-import com.revl.challenge.R
 import com.revl.challenge.App
+import com.revl.challenge.R
 import com.revl.challenge.model.Image
 
-class ImageListItemView : RelativeLayout {
+class ImageDetailListItemView : RelativeLayout {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Private members
 
     // Views
+    private val previewImageView: ImageView by bindView(R.id.preview_image_view)
     private val imageView: ImageView by bindView(R.id.image_view)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,22 +35,22 @@ class ImageListItemView : RelativeLayout {
     // API
 
     private fun bind(image: Image) {
-        App
-                .component()
-                .picasso()
-                .load(image.thumbnailUrl)
+        val picasso = App.component().picasso()
+        picasso.load(image.thumbnailUrl)
                 .placeholder(ColorDrawable(image.accentColor))
+                .into(previewImageView)
+        picasso.load(image.url)
                 .into(imageView)
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Model
 
-    class Model(private val image: Image) : EpoxyModel<ImageListItemView>() {
+    class Model(private val image: Image) : EpoxyModel<ImageDetailListItemView>() {
 
-        override fun getDefaultLayout() = R.layout.image_list_item_view
+        override fun getDefaultLayout() = R.layout.image_detail_list_item_view
 
-        override fun bind(view: ImageListItemView) = view.bind(image)
+        override fun bind(view: ImageDetailListItemView) = view.bind(image)
 
     }
 
