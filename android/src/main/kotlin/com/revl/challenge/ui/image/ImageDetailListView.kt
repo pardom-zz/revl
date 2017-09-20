@@ -1,4 +1,4 @@
-package com.revl.challenge.ui.bar
+package com.revl.challenge.ui.image
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,7 @@ import com.revl.challenge.R.layout
 import com.revl.challenge.navigator.Route
 import com.revl.challenge.navigator.SceneNavigator.SceneRoute
 
-class BarDetailView : LinearLayout {
+class ImageDetailListView : LinearLayout {
 
     @JvmOverloads
     constructor(
@@ -19,7 +19,7 @@ class BarDetailView : LinearLayout {
 
     companion object {
 
-        fun route(): Route = SceneRoute(layout.bar_detail_view)
+        fun route(): Route = SceneRoute(layout.image_detail_list_view)
 
     }
 

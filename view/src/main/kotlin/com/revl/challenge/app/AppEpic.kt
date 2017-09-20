@@ -1,17 +1,17 @@
 package com.revl.challenge.app
 
-import com.revl.challenge.foo.FooEpic
+import com.revl.challenge.image.ImageEpic
 import io.reactivex.Observable
 import redux.api.Store
 import redux.observable.Epic
 import javax.inject.Inject
 
 class AppEpic @Inject constructor(
-        private val fooEpic: FooEpic) : Epic<AppState> {
+        private val imageEpic: ImageEpic) : Epic<AppState> {
 
     override fun map(actions: Observable<out Any>, store: Store<AppState>): Observable<out Any> {
         return Observable.merge(
-                fooEpic.map(actions, store),
+                imageEpic.map(actions, store),
                 Observable.empty<AppState>()
         )
     }

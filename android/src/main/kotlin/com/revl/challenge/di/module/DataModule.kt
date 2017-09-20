@@ -1,7 +1,7 @@
 package com.revl.challenge.di.module
 
 import android.content.Context
-import com.revl.challenge.retrofit.foo.FooService
+import com.revl.challenge.retrofit.image.ImageService
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
@@ -28,7 +28,7 @@ class DataModule {
     fun baseUrl(): String {
         // TODO: This is not the ideal place to provide the base url. Typically it would be provided
         // by a condition based abstraction, e.g. mock mode, production, staging, etc.
-        return "https://api.imgur.com/3/foo/"
+        return "https://api.imgur.com/3/image/"
     }
 
     @Provides
@@ -61,8 +61,8 @@ class DataModule {
     }
 
     @Provides
-    fun fooService(retrofit: Retrofit): FooService {
-        return retrofit.create(FooService::class.java)
+    fun imageService(retrofit: Retrofit): ImageService {
+        return retrofit.create(ImageService::class.java)
     }
 
 }

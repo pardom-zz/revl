@@ -1,8 +1,8 @@
 package com.revl.challenge.di.module
 
-import com.revl.challenge.datasource.foo.FooRemoteDatasource
-import com.revl.challenge.retrofit.foo.FooDatasource
-import com.revl.challenge.retrofit.foo.FooService
+import com.revl.challenge.datasource.image.ImageRemoteDatasource
+import com.revl.challenge.retrofit.image.ImageDatasource
+import com.revl.challenge.retrofit.image.ImageService
 import dagger.Module
 import dagger.Provides
 
@@ -10,8 +10,8 @@ import dagger.Provides
 class RemoteDatasourceModule {
 
     @Provides
-    fun fooRemoteDatasource(service: FooService): FooRemoteDatasource {
-        return FooDatasource(service)
+    fun imageRemoteDatasource(service: ImageService): ImageRemoteDatasource {
+        return ImageDatasource(service)
     }
 
 }

@@ -1,13 +1,12 @@
-package com.revl.challenge.ui.foo
+package com.revl.challenge.ui.image
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.jakewharton.rxbinding2.view.clicks
 import com.revl.challenge.navigator.Navigator
-import com.revl.challenge.ui.bar.BarDetailView
 
-class FooListView : LinearLayout {
+class ImageGridListView : LinearLayout {
 
     @JvmOverloads
     constructor(
@@ -23,7 +22,7 @@ class FooListView : LinearLayout {
 
         clicks().subscribe {
             Navigator.of(this)
-                    .push(BarDetailView.route())
+                    .push(ImageDetailListView.route())
         }
 
     }

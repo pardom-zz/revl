@@ -7,7 +7,7 @@ import com.revl.challenge.navigator.SceneNavigator
 
 class RevlNavigator : SceneNavigator {
 
-    override val defaultRoute = SceneRoute(R.layout.foo_list_view)
+    override val defaultRoute = SceneRoute(R.layout.image_grid_list_view)
 
     @JvmOverloads
     constructor(
