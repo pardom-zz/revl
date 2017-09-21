@@ -5,7 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import butterknife.bindView
+import kotterknife.bindView
 import com.airbnb.epoxy.EpoxyModel
 import com.revl.challenge.App
 import com.revl.challenge.R

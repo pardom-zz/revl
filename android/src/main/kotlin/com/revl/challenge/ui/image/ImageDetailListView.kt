@@ -9,7 +9,7 @@ import android.support.v7.widget.PagerSnapHelper
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import butterknife.bindView
+import kotterknife.bindView
 import com.revl.challenge.App
 import com.revl.challenge.R
 import com.revl.challenge.image.ImageAction

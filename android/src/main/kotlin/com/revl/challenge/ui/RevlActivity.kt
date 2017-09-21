@@ -2,7 +2,7 @@ package com.revl.challenge.ui
 
 import android.app.Activity
 import android.os.Bundle
-import butterknife.bindView
+import kotterknife.bindView
 import com.revl.challenge.R
 import com.revl.challenge.navigator.Navigator
 

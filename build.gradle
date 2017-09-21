@@ -17,7 +17,7 @@ buildscript {
         daggerVersion = '2.11'
         epoxyVersion = '2.5.0'
         javaxInjectVersion = '1'
-        kotterKnifeVersion = '0.1.0-20160329.025248-20'
+        kotterKnifeVersion = '0.1.0-SNAPSHOT'
         okHttpVersion = '3.9.0'
         picassoVersion = '2.5.2'
         reduxKotlinVersion = '1.2.1'

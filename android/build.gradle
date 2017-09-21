@@ -39,8 +39,7 @@ dependencies {
     compile dagger
     compile epoxy
     compile kotlinStdlib
-    // compile kotterKnife
-    compile(name: 'kotterknife-0.1.0-20160329.025248-20', ext: 'aar')
+    compile kotterKnife
     compile picasso
     compile reduxKotlin
     compile reduxObservable

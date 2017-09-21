@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import butterknife.bindView
 import com.revl.challenge.App
 import com.revl.challenge.R
 import com.revl.challenge.image.ImageAction
@@ -17,6 +16,7 @@ import com.revl.challenge.navigator.Navigator
 import com.revl.challenge.widget.recyclerview.EndlessScrollObservable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import kotterknife.bindView
 
 class ImageGridListView : LinearLayout {
 
